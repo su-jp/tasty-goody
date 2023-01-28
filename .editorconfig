@@ -1,0 +1,6 @@
+# 프로젝트에서는 공통 세팅 사용하면 됨
+[*.{js,jsx,ts,tsx,vue}]
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = true
+insert_final_newline = true
