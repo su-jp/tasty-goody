@@ -2,14 +2,11 @@
   <v-app>
     <v-app-bar
       app
-      color="amber"
-      dark
+      color="white"
+      flat
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-
-      <v-spacer />
     </v-app-bar>
-    <!-- dark 옵션으로 사이드바 텍스트 흰색 적용, :src로 배경 이미지 적용 -->
     <v-navigation-drawer
       v-model="drawer"
       app
