@@ -2,11 +2,27 @@
   <v-app>
     <v-app-bar
       app
-      color="white"
+      color="transparent"
       flat
     >
-      <v-app-bar-nav-icon @click="drawer = !drawer" />
+      <v-btn
+        class="mx-2"
+        fab
+        dark
+        small
+        depressed
+        color="amber"
+        @click="drawer = !drawer"
+      >
+        <v-icon dark>
+          mdi-menu
+        </v-icon>
+      </v-btn>
     </v-app-bar>
+    <v-img
+      v-if="this.$route.name === 'Dashboard'"
+      :src="waveHeight"
+    />
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -57,7 +73,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main>
+    <v-main class="pt-0">
       <v-container>
         <router-view />
       </v-container>
@@ -82,7 +98,21 @@ export default {
     }
   },
   computed: {
-
+    waveHeight() {
+      let src = 'https://capsule-render.vercel.app/api?type=wave&color=ffc107&height=';
+      switch(this.$vuetify.breakpoint.name){
+      case 'xs':
+      case 'sm':
+        return src + '300';
+      case 'md':
+        return src + '200';
+      default:
+        return src + '150';
+      }
+    },
+  },
+  mounted() {
+    console.log(this.$route);
   },
   created() {
     this.drawer = this.setDrawer();
@@ -100,3 +130,7 @@ export default {
   }
 };
 </script>
+
+<style>
+
+</style>

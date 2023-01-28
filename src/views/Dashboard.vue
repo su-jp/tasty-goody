@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row class="pt-2">
+    <v-row>
       <v-col
         cols="12"
         :elevation="25"
@@ -28,7 +28,7 @@
         />
       </v-col>
     </v-row>
-    <v-row class="py-5">
+    <v-row class="pt-5">
       <v-col>
         <p class="text-lg-h4 text-sm-h5 text-h6 text-center">
           맛있는 건 정말 참을 수 없어 🎵
