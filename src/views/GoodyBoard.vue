@@ -115,10 +115,16 @@
                   <v-img :src="require(`@/assets/photos/${board.id}/${i}.jpg`)" />
                 </v-carousel-item>
               </v-carousel>
+              <v-card-title>
+                🥄 내가 먹은 메뉴
+              </v-card-title>
               <v-card-text>
                 {{ board.goodies }}
               </v-card-text>
               <v-divider />
+              <v-card-title>
+                💬 후기
+              </v-card-title>
               <v-card-text>
                 {{ board.contents }}
               </v-card-text>
