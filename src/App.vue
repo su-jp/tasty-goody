@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="transparent"
+      :color="appBarColor"
       flat
     >
       <v-btn
@@ -73,7 +73,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main class="pt-0">
+    <v-main :class="mainDivClass">
       <v-container>
         <router-view />
       </v-container>
@@ -95,6 +95,8 @@ export default {
         { title: 'Guest Book', icon: 'mdi-pencil', to: '/guestBook' },
         { title: 'Contacts', icon: 'mdi-contacts', to: '/contacts' },
       ],
+      appBarColor: 'transparent',
+      mainDivClass: 'pt-0',
     }
   },
   computed: {
@@ -112,21 +114,35 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route);
+
   },
   created() {
     this.drawer = this.setDrawer();
+    this.checkDashboard();
+  },
+  updated() {
+    this.checkDashboard();
   },
   methods: {
     setDrawer() {
       switch(this.$vuetify.breakpoint.name){
       case 'xs':
       case 'sm':
+      case 'md':
         return false;
       default:
         return true;
       }
     },
+    checkDashboard() {
+      if (this.$route.name === 'Dashboard'){
+        this.appBarColor = 'transparent';
+        this.mainDivClass = 'pt-0';
+      } else {
+        this.appBarColor = 'amber';
+        this.mainDivClass = '';
+      }
+    }
   }
 };
 </script>
