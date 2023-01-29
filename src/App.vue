@@ -18,6 +18,15 @@
           mdi-menu
         </v-icon>
       </v-btn>
+      <v-spacer />
+      <v-btn
+        v-if="this.$route.name !== 'Dashboard'"
+        icon
+        dark
+        to="/"
+      >
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-img
       v-if="this.$route.name === 'Dashboard'"
