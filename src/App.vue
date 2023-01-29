@@ -4,6 +4,7 @@
       app
       :color="appBarColor"
       flat
+      dark
     >
       <v-btn
         class="mx-2"
@@ -18,6 +19,9 @@
           mdi-menu
         </v-icon>
       </v-btn>
+      <v-toolbar-title>
+        {{ appBarTitle }}
+      </v-toolbar-title>
       <v-spacer />
       <v-btn
         v-if="this.$route.name !== 'Dashboard'"
@@ -121,6 +125,18 @@ export default {
         return src + '150';
       }
     },
+    appBarTitle() {
+      switch(this.$route.path){
+      case '/goodyBoard':
+        return 'Tasty Goody';
+      case '/guestBook':
+        return 'Guest Book';
+      case '/contacts':
+        return 'Contacts';
+      default:
+        return '';
+      }
+    }
   },
   mounted() {
 

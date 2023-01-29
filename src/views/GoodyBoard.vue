@@ -87,7 +87,10 @@
                 dark
               >
                 <v-row align="center">
-                  <v-col cols="auto">
+                  <v-col
+                    cols="8"
+                    class="ml-3"
+                  >
                     [{{ board.region }}] {{ board.storeName }}
                   </v-col>
                   <v-spacer />
@@ -112,7 +115,10 @@
                   v-for="i in board.numPhotos"
                   :key="i"
                 >
-                  <v-img :src="require(`@/assets/photos/${board.id}/${i}.jpg`)" />
+                  <v-img
+                    :src="require(`@/assets/photos/${board.id}/${i}.jpg`)"
+                    class="img-cover"
+                  />
                 </v-carousel-item>
               </v-carousel>
               <v-card-title>
@@ -162,6 +168,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.img-cover {
+  width: auto;
+  height: 400px;
+}
 </style>
