@@ -90,7 +90,7 @@ export default {
       drawer: false,
       gradient: 'rgba(0, 0, 0, .4), rgba(0, 0, 0, 0)',
       items: [
-        { title: 'Welcome', icon: 'mdi-human-greeting-variant', to: '/tasty-goody' },
+        { title: 'Welcome', icon: 'mdi-human-greeting-variant', to: '/' },
         { title: 'Tasty Goody', icon: 'mdi-food-fork-drink', to: '/goodyBoard' },
         { title: 'Guest Book', icon: 'mdi-pencil', to: '/guestBook' },
         { title: 'Contacts', icon: 'mdi-contacts', to: '/contacts' },

@@ -9,7 +9,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/tasty-goody',
+    path: '/',
     name: 'Dashboard',
     component: Dashboard,
   },
@@ -31,7 +31,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes
 });
 
