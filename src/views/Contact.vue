@@ -58,6 +58,12 @@
         </v-form>
       </v-col>
     </v-row>
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      />
+    </v-overlay>
   </v-container>
 </template>
 
@@ -66,6 +72,7 @@ export default {
   data: () => ({
     valid: true,
     validAll: false,
+    overlay: false,
     name: '',
     nameRules: [
       v => !!v || '이름을 입력해주세요',
@@ -78,15 +85,35 @@ export default {
     phone: '',
     phoneRules: [
       v => !!v || '연락처를 입력해주세요',
-      v => (v && v.length <= 10) || '연락처는 11자리까지 입력할 수 있습니다',
+      v => (v && v.length <= 11) || '연락처는 11자리까지 입력할 수 있습니다',
       v => /^[0-9]*$/.test(v) || '연락처는 숫자만 입력할 수 있습니다'
     ],
   }),
 
   methods: {
     onClickBtn() {
-      console.log(`==========\n이름: ${this.name}\n이메일: ${this.email}\n연락처: ${this.phone}\n==========`);
-      alert('전송 되었습니다. 감사합니다!');
+      this.overlay = true;
+      let strContents = `이름: ${this.name}\n이메일: ${this.email}\n연락처: ${this.phone}`;
+      const token = ''; //GitHub Personal access token
+      this.$axios({
+        url: 'https://api.github.com/repos/su-jp/tasty-goody/issues/2/comments',
+        method: 'post',
+        headers: {
+          Authorization: "Basic " + window.btoa(token)
+        },
+        data: {
+          body: strContents
+        }
+      }).then((response) => {
+        console.log('성공');
+        alert('전송 되었습니다. 감사합니다!');
+      }).catch((error) => {
+        console.log('실패 error: ' + error);
+      }).finally(() => {
+        this.overlay = false;
+        this.$refs.form.reset();
+        console.log('종료');
+      });
     },
     onFormChange() {
       if(this.$refs.form.validate()) {
