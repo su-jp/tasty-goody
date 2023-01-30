@@ -47,6 +47,7 @@
               <v-btn
                 color="amber"
                 depressed
+                :dark="validAll"
                 :disabled="!validAll"
                 class="mt-5"
                 @click="onClickBtn"

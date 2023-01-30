@@ -33,7 +33,7 @@
       </v-btn>
     </v-app-bar>
     <v-img
-      v-if="this.$route.name !== 'GoodyBoard' && this.$route.name !== 'GuestBook'"
+      v-if="this.$route.name !== 'GoodyBoard'"
       :src="waveHeight"
     />
     <v-navigation-drawer
