@@ -22,6 +22,7 @@
             :rules="nameRules"
             label="🙋‍♀️이름"
             required
+            @keyup="onFormChange"
           />
 
           <v-text-field
@@ -29,6 +30,7 @@
             :rules="emailRules"
             label="📧이메일"
             required
+            @keyup="onFormChange"
           />
 
           <v-text-field
@@ -37,15 +39,22 @@
             :rules="phoneRules"
             label="📞연락처"
             required
+            @keyup="onFormChange"
           />
-          <v-btn
-            color="amber"
-            dark
-            depressed
-            @click="onClickBtn"
-          >
-            전송
-          </v-btn>
+          <v-row>
+            <v-spacer />
+            <v-col cols="auto">
+              <v-btn
+                color="amber"
+                depressed
+                :disabled="!validAll"
+                class="mt-5"
+                @click="onClickBtn"
+              >
+                전송하기
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-form>
       </v-col>
     </v-row>
@@ -56,6 +65,7 @@
 export default {
   data: () => ({
     valid: true,
+    validAll: false,
     name: '',
     nameRules: [
       v => !!v || '이름을 입력해주세요',
@@ -75,12 +85,16 @@ export default {
 
   methods: {
     onClickBtn() {
-      if(this.$refs.form.validate()) {
-        alert('전송');
-      } else {
-        alert('전송실패');
-      }
+      console.log(`==========\n이름: ${this.name}\n이메일: ${this.email}\n연락처: ${this.phone}\n==========`);
+      alert('전송 되었습니다. 감사합니다!');
     },
+    onFormChange() {
+      if(this.$refs.form.validate()) {
+        this.validAll = true;
+      }else{
+        this.validAll = false;
+      }
+    }
   },
 }
 </script>
