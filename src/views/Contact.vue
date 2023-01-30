@@ -94,7 +94,7 @@ export default {
     onClickBtn() {
       this.overlay = true;
       let strContents = `이름: ${this.name}\n이메일: ${this.email}\n연락처: ${this.phone}`;
-      const token = 'Z2hwX3FmVm9HcWZWeHhRc1hOU05rVlFzT2FsR2s3Z3VXNzNVeTVCTg=='; //GitHub Personal access token
+      const token = ''; //GitHub Personal access token
       this.$axios({
         url: 'https://api.github.com/repos/su-jp/tasty-goody/issues/2/comments',
         method: 'post',

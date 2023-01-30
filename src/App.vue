@@ -33,7 +33,7 @@
       </v-btn>
     </v-app-bar>
     <v-img
-      v-if="this.$route.name !== 'GoodyBoard'"
+      v-if="this.$route.name !== 'GoodyBoard' && this.$route.name !== 'GuestBook'"
       :src="waveHeight"
     />
     <v-navigation-drawer
@@ -85,6 +85,13 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <p
+          class="pl-5 white--text text-caption"
+        >
+          © 2023 su-jp (Sujin Park)
+        </p>
+      </template>
     </v-navigation-drawer>
     <v-main :class="mainDivClass">
       <v-container>
@@ -105,6 +112,7 @@ export default {
       items: [
         { title: 'Welcome', icon: 'mdi-human-greeting-variant', to: '/' },
         { title: 'Tasty Goody', icon: 'mdi-food-fork-drink', to: '/goodyBoard' },
+        { title: 'Guest Book', icon: 'mdi-book', to: '/guestBook' },
         { title: 'Contact', icon: 'mdi-contacts', to: '/contact' },
       ],
       appBarColor: 'transparent',
@@ -128,6 +136,8 @@ export default {
       switch(this.$route.path){
       case '/goodyBoard':
         return 'Tasty Goody';
+      case '/guestBook':
+        return 'Guest Book';
       case '/contact':
         return 'Contact';
       default:
