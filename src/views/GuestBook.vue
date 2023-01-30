@@ -13,74 +13,129 @@
           Tasty Board에 전하고 싶은 말을 남겨주세요!
         </p>
       </v-col>
-      <v-col>
-        <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-header>
-              방명록 작성하기
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-form ref="form">
-                <v-text-field
-                  v-model="name"
-                  label="🙋‍♀️이름"
-                  required
-                  @keyup="onFormChange"
-                />
-                <v-text-field
-                  v-model="contents"
-                  counter="100"
-                  label="📝내용"
-                  required
-                  @keyup="onFormChange"
-                />
-                <v-row>
-                  <v-spacer />
-                  <v-col cols="auto">
-                    <v-btn
-                      color="amber"
-                      depressed
-                      :dark="validAll"
-                      :disabled="!validAll"
-                      class="mt-5"
-                      @click="onClickBtn"
-                    >
-                      등록하기
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-col>
     </v-row>
-    <v-card class="mt-5">
-      <v-row
-        v-for="data in guestBookList"
-        :key="data.id"
-      >
-        <v-col>
-          {{ data.name }}
-          <br>
+    <v-card
+      v-for="data in guestBookList"
+      :key="data.id"
+      class="mt-5"
+    >
+      <v-card-title>
+        <v-icon
+          left
+          color="amber"
+        >
+          mdi-account-edit
+        </v-icon>
+        <span class="text-subtitle-1 font-weight-light">{{ data.name }}</span>
+      </v-card-title>
+      <v-card-text>
+        <p class="text-body-1">
           {{ data.contents }}
-          <br>
-          {{ data.createdAt }}
-        </v-col>
-      </v-row>
+        </p>
+        <v-row>
+          <v-spacer />
+          <v-col cols="auto">
+            {{ data.createdAt }}
+          </v-col>
+        </v-row>
+      </v-card-text>
     </v-card>
-    <v-overlay :value="overlay">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      />
-    </v-overlay>
+    <v-dialog
+      v-model="dialog"
+      show-overlay
+      max-width="600"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-fab-transition>
+          <v-btn
+            color="amber"
+            bottom
+            right
+            fixed
+            fab
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </v-fab-transition>
+      </template>
+      <template>
+        <v-card>
+          <v-toolbar
+            color="amber"
+            dark
+          >
+            <v-row align="center">
+              <v-col
+                cols="8"
+                class="ml-3"
+              >
+                방명록 작성하기
+              </v-col>
+              <v-spacer />
+              <v-col cols="auto">
+                <v-btn
+                  icon
+                  @click="onCloseDialog"
+                >
+                  <v-icon>mdi-close</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-toolbar>
+          <v-card-text>
+            <v-form
+              ref="form"
+              class="pt-5"
+            >
+              <v-text-field
+                v-model="name"
+                label="🙋‍♀️이름"
+                required
+                @keyup="onFormChange"
+              />
+              <v-text-field
+                v-model="contents"
+                counter="100"
+                label="📝내용"
+                required
+                @keyup="onFormChange"
+              />
+              <v-row>
+                <v-spacer />
+                <v-col cols="auto">
+                  <v-btn
+                    color="amber"
+                    depressed
+                    :dark="validAll"
+                    :disabled="!validAll"
+                    class="mt-5"
+                    @click="onClickBtn"
+                  >
+                    등록하기
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+        </v-card>
+        <v-overlay :value="overlay">
+          <v-progress-circular
+            indeterminate
+            size="64"
+          />
+        </v-overlay>
+      </template>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 export default {
   data: () => ({
+    dialog: false,
     validAll: false,
     overlay: false,
     name: '',
@@ -91,8 +146,9 @@ export default {
     this.getGuestBookList();
   },
   methods: {
-    getGuestBookList() {
-      this.$axios.get('https://api.github.com/repos/su-jp/tasty-goody/issues/3/comments')
+    async getGuestBookList() {
+      this.guestBookList = [];
+      await this.$axios.get('https://api.github.com/repos/su-jp/tasty-goody/issues/3/comments?per_page=100')
         .then((response) => {
           for(let i=0; i<response.data.length; i++) {
             let guestBook = JSON.parse(response.data[i].body);
@@ -103,6 +159,7 @@ export default {
               name: guestBook.name,
               contents: guestBook.contents,
               createdAt: parsedDate,
+              likes: response.data[i].reactions.heart
             }
             this.guestBookList.push(guestBookData);
           }
@@ -112,8 +169,11 @@ export default {
           this.guestBookList.sort(function(a,b){
             return b.id - a.id;
           });
-          console.log('종료');
         });
+    },
+    onCloseDialog() {
+      this.dialog = false;
+      this.$refs.form.reset();
     },
     onClickBtn() {
       this.overlay = true;
@@ -134,22 +194,24 @@ export default {
         console.log('error: ' + error);
         alert('등록에 실패하였습니다. 관리자에게 문의해주세요.')
       }).finally(() => {
-        this.overlay = false;
-        this.$refs.form.reset();
+        setTimeout(() => {
+          this.getGuestBookList();
+          this.overlay = false;
+          this.onCloseDialog();
+        }, 1000);
       });
     },
     onFormChange() {
       if(this.name === '' || this.contents === '') {
+        this.validAll = false;
+        return;
+      }else if(this.contents.length){
         if(this.contents.length > 100){
           this.validAll = false;
-        }
-      }else{
-        if(this.contents.length > 100){
-          this.validAll = false;
-        } else {
-          this.validAll = true;
+          return;
         }
       }
+      this.validAll = true;
     },
   },
 }
