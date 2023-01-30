@@ -94,25 +94,24 @@ export default {
     onClickBtn() {
       this.overlay = true;
       let strContents = `이름: ${this.name}\n이메일: ${this.email}\n연락처: ${this.phone}`;
-      const token = ''; //GitHub Personal access token
+      const token = 'Z2hwX3FmVm9HcWZWeHhRc1hOU05rVlFzT2FsR2s3Z3VXNzNVeTVCTg=='; //GitHub Personal access token
       this.$axios({
         url: 'https://api.github.com/repos/su-jp/tasty-goody/issues/2/comments',
         method: 'post',
         headers: {
-          Authorization: "Basic " + window.btoa(token)
+          Authorization: "Basic " + token
         },
         data: {
           body: strContents
         }
       }).then((response) => {
-        console.log('성공');
         alert('전송 되었습니다. 감사합니다!');
       }).catch((error) => {
-        console.log('실패 error: ' + error);
+        console.log('error: ' + error);
+        alert('전송에 실패하였습니다. 관리자에게 문의해주세요.')
       }).finally(() => {
         this.overlay = false;
         this.$refs.form.reset();
-        console.log('종료');
       });
     },
     onFormChange() {
