@@ -3,7 +3,6 @@
     <v-row>
       <v-col
         cols="12"
-        :elevation="25"
       >
         <p
           class="text-lg-h1 text-sm-h2 text-h3 font-weight-black text-center font-italic amber--text"

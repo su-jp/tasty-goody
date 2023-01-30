@@ -105,7 +105,6 @@ export default {
       items: [
         { title: 'Welcome', icon: 'mdi-human-greeting-variant', to: '/' },
         { title: 'Tasty Goody', icon: 'mdi-food-fork-drink', to: '/goodyBoard' },
-        { title: 'Guest Book', icon: 'mdi-pencil', to: '/guestBook' },
         { title: 'Contacts', icon: 'mdi-contacts', to: '/contacts' },
       ],
       appBarColor: 'transparent',
@@ -129,8 +128,6 @@ export default {
       switch(this.$route.path){
       case '/goodyBoard':
         return 'Tasty Goody';
-      case '/guestBook':
-        return 'Guest Book';
       case '/contacts':
         return 'Contacts';
       default:
