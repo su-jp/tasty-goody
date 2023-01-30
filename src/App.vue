@@ -33,7 +33,7 @@
       </v-btn>
     </v-app-bar>
     <v-img
-      v-if="this.$route.name === 'Dashboard'"
+      v-if="this.$route.name !== 'GoodyBoard'"
       :src="waveHeight"
     />
     <v-navigation-drawer
@@ -105,7 +105,7 @@ export default {
       items: [
         { title: 'Welcome', icon: 'mdi-human-greeting-variant', to: '/' },
         { title: 'Tasty Goody', icon: 'mdi-food-fork-drink', to: '/goodyBoard' },
-        { title: 'Contacts', icon: 'mdi-contacts', to: '/contacts' },
+        { title: 'Contact', icon: 'mdi-contacts', to: '/contact' },
       ],
       appBarColor: 'transparent',
       mainDivClass: 'pt-0',
@@ -128,8 +128,8 @@ export default {
       switch(this.$route.path){
       case '/goodyBoard':
         return 'Tasty Goody';
-      case '/contacts':
-        return 'Contacts';
+      case '/contact':
+        return 'Contact';
       default:
         return '';
       }

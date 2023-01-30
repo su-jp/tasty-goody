@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Dashboard from '@/views/Dashboard';
 import GoodyBoard from '@/views/GoodyBoard';
-import Contacts from '@/views/Contacts';
+import Contact from '@/views/Contact';
 
 Vue.use(VueRouter);
 
@@ -18,9 +18,9 @@ const routes = [
     component: GoodyBoard,
   },
   {
-    path: '/contacts',
-    name: 'Contacts',
-    component: Contacts,
+    path: '/contact',
+    name: 'Contact',
+    component: Contact,
   },
 ]
 
