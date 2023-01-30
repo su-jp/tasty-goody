@@ -55,6 +55,20 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
+    <v-card class="mt-5">
+      <v-row
+        v-for="data in guestBookList"
+        :key="data.id"
+      >
+        <v-col>
+          {{ data.name }}
+          <br>
+          {{ data.contents }}
+          <br>
+          {{ data.createdAt }}
+        </v-col>
+      </v-row>
+    </v-card>
     <v-overlay :value="overlay">
       <v-progress-circular
         indeterminate
@@ -71,8 +85,36 @@ export default {
     overlay: false,
     name: '',
     contents: '',
+    guestBookList: [],
   }),
+  created() {
+    this.getGuestBookList();
+  },
   methods: {
+    getGuestBookList() {
+      this.$axios.get('https://api.github.com/repos/su-jp/tasty-goody/issues/3/comments')
+        .then((response) => {
+          for(let i=0; i<response.data.length; i++) {
+            let guestBook = JSON.parse(response.data[i].body);
+            let regDate = new Date(response.data[i].created_at);
+            let parsedDate = regDate.getFullYear()+'/'+(regDate.getMonth()+1)+'/'+regDate.getDate()+' '+regDate.getHours()+':'+regDate.getMinutes();
+            let guestBookData = {
+              id: i,
+              name: guestBook.name,
+              contents: guestBook.contents,
+              createdAt: parsedDate,
+            }
+            this.guestBookList.push(guestBookData);
+          }
+        })
+        .catch((error) => console.log('error: '+error))
+        .finally(() => {
+          this.guestBookList.sort(function(a,b){
+            return b.id - a.id;
+          });
+          console.log('종료');
+        });
+    },
     onClickBtn() {
       this.overlay = true;
       let strContents = `{ "name": "${this.name}", "contents": "${this.contents}" }`;
@@ -108,7 +150,7 @@ export default {
           this.validAll = true;
         }
       }
-    }
+    },
   },
 }
 </script>
